@@ -10,6 +10,6 @@ document.body.append(root)
 
 createRoot(root).render(
   <StrictMode>
-    <ContentPage />
+    <ContentPage  />
   </StrictMode>
 )
