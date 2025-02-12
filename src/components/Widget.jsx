@@ -1,9 +1,54 @@
 import React from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 export default function Widget() {
 
     const [timeLeft, setTimeLeft] = useState(0);
     // will add logic here 
+
+    UseEffect(() => {
+        const visibleText = () => {
+            //document.createTreeWalker is a built-in browser API
+            // that creates a TreeWalker object, which allows you to traverse the DOM tree
+
+            //its preffered over HTML.innerText and querySelector because the traversal is easy and 
+            // in this case we need only visible text on the web page.
+            document.createTreeWalker(
+                document.body
+            NodeFilter.SHOW_TEXT
+            )
+
+
+            let visibleText = '';
+
+            while (walker.nextNode()) {
+                const node = walker.currentNode;
+                const parentElement = node.parentElement;
+
+                // Check if the element is visible
+                if (parentElement && isElementVisible(parentElement)) {
+                    visibleText += node.textContent + ' ';
+                }
+            };
+
+            return visibleText.trim();
+        };
+
+        const isElementVisible = (element) => {
+            const style = window.getComputedStyle(element);
+            return (
+                style.display !== 'none' &&
+                style.visibility !== 'hidden' &&
+                element.offsetWidth > 0 &&
+                element.offsetHeight > 0
+            );
+        };
+
+        const words = getVisibleText().split(/\s+/)
+        setTotalWords(words.length)
+    }, []);
+
+
+
     return (
 
         <div className="fixed bottom-4 right-4 bg-black/80 text-white p-3 rounded-lg shadow-lg">
