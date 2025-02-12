@@ -24,10 +24,14 @@ export default function Widget() {
                 const node = walker.currentNode;
                 const parentElement = node.parentElement;
 
+                //This loop iterates through all text nodes in the DOM, starting from the root (document.body).
+
                 // Check if the element is visible
                 if (parentElement && isElementVisible(parentElement)) {
                     visibleText += node.textContent + ' ';
                 }
+
+                // If the parent element is visible, append the text to the visibleText string, followed by a space (to separate words).
             };
 
             return visibleText.trim();
