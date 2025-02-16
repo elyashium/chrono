@@ -1,4 +1,18 @@
-const useScrollProgress = () => {
+import { useState, useEffect } from 'react'
+
+// Simple throttle function
+const throttle = (func, limit) => {
+  let inThrottle;
+  return function(...args) {
+    if (!inThrottle) {
+      func.apply(this, args);
+      inThrottle = true;
+      setTimeout(() => inThrottle = false, limit);
+    }
+  }
+}
+
+export default function useScrollProgress() {
     const [scrollProgress, setScrollProgress] = useState(0)
 
     useEffect(() => {
