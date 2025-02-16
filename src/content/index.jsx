@@ -1,9 +1,9 @@
-import './index.css'
+import '../index.css' 
 
 import { createRoot } from 'react-dom/client'
 import Widget from '../components/Widget'
 import { StrictMode } from 'react'
-import Content from '@/content/content'
+
 
 const widgetroot = document.createElement('div')
 document.body.appendChild(widgetRoot);

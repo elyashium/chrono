@@ -52,7 +52,7 @@ export default function Widget() {
             );
         };
 
-        const words = VisibleText().split(/\s+/);
+        const words = visibleText().split(/\s+/);
         setTotalWords(words.length)
 
     }, []);
@@ -82,9 +82,7 @@ export default function Widget() {
     useEffect(() => {
        
         const timer = setInterval(() => {
-            setTimeRemaining(prev =>
-                // Decrease timeRemaining by 0.0167 seconds (1/60 of a second)
-                // Ensure it doesn't go below estimatedTime
+            setTimeLeft(prev =>
                 Math.max(estimatedTime, prev - 0.0167)
             );
         }, 1000 / 60); // 60 FPS (smooth animation)
