@@ -13,9 +13,16 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
-        content: 'src/content/content.jsx',
-        popup: 'index.html'
+        popup: 'index.html',
+        content: 'src/content/content.jsx'
       }
+    }
+  },
+  server: {
+    port: 5173,
+    strictPort: true,
+    hmr: {
+      port: 5173
     }
   }
 })

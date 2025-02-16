@@ -1,7 +1,7 @@
 { 
     "manifest_version" : 3,
     "name": "chrono",
-    "description" : "chrome extention for evaluating real-time reading time for webpages",
+    "description" : "chrome extension for evaluating real-time reading time for webpages",
     "version" : "1.0.0",
     "permissions" : [ "activeTab", "scripting"],
     "action" : {
