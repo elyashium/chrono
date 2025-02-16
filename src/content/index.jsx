@@ -5,7 +5,7 @@ import Widget from '../components/Widget'
 import { StrictMode } from 'react'
 
 
-const widgetroot = document.createElement('div')
+const widgetRoot = document.createElement('div')
 document.body.appendChild(widgetRoot);
 //adds the created div at the end of the <body>
 const ShadowRoot = widgetRoot.attachShadow({ mode: 'open' })

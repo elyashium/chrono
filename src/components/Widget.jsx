@@ -8,7 +8,6 @@ export default function Widget() {
     const [timeLeft, setTimeLeft] = useState(0);
     const [totalWords, setTotalWords] = useState(0);
 
-    // will add logic here 
 
     useEffect(() => {
         const visibleText = () => {
@@ -94,10 +93,13 @@ export default function Widget() {
 
 
     return (
-
-        <div className="fixed bottom-4 right-4 bg-black/80 text-white p-3 rounded-lg shadow-lg">
-            ⏳ {timeLeft}m remaining | Words: {totalWords}
+        <div className="fixed bottom-4 right-4 backdrop-blur-md bg-black/40 text-white p-4 rounded-xl shadow-lg border border-white/10 font-sans transition-all hover:bg-black/50">
+            <div className="flex items-center gap-2">
+                <span className="text-amber-400">⏳</span>
+                <span className="font-medium">{timeLeft.toFixed(1)}m</span>
+                <span className="text-gray-400">|</span>
+                <span className="text-sm text-gray-300">{totalWords} words</span>
+            </div>
         </div>
-
     )
 }
