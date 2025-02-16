@@ -13,7 +13,8 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
-        index: 'index.html'
+        content: 'src/content/content.jsx',
+        popup: 'index.html'
       }
     }
   }
