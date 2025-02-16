@@ -1,5 +1,6 @@
 import React from 'react'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
+import useScrollProgress from '../hooks/useScrollProgress'
 
 
 export default function Widget() {
@@ -62,6 +63,35 @@ export default function Widget() {
 
     const BASE_WP = 200;
     // average reading time in english
+    const scrollProgress = useScrollProgress();
+    //returns a value from 0 to 1 to indicate the page length scrolled.
+    // 0 means at the top.
+    // 0.5 means half the page has been scrolled etc..
+
+
+    const estimatedTime = useMemo(() => {
+        const rawTime = totalWords / BASE_WP
+        return Math.max(1, Math.ceil(rawTime * (1 - scrollProgress)))
+        //Math.max(1, ...): Ensures that at least 1 minute is displayed, even if the estimated time is very low.
+
+
+    }, [totalWords, scrollProgress])
+    //estimatedTime is recalculated only when totalWords or scrollProgress changes.
+
+
+    useEffect(() => {
+       
+        const timer = setInterval(() => {
+            setTimeRemaining(prev =>
+                // Decrease timeRemaining by 0.0167 seconds (1/60 of a second)
+                // Ensure it doesn't go below estimatedTime
+                Math.max(estimatedTime, prev - 0.0167)
+            );
+        }, 1000 / 60); // 60 FPS (smooth animation)
+
+        // Cleanup function: Clears the interval when `estimatedTime` changes or component unmounts
+        return () => clearInterval(timer);
+    }, [estimatedTime]); // Runs whenever `estimatedTime` changes
 
 
 
