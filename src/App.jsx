@@ -1,4 +1,5 @@
 import React from 'react'
+import Widget from './components/Widget'
 
 export default function App() {
   return (
@@ -7,6 +8,7 @@ export default function App() {
       <p className="text-sm text-gray-600">
         Reading time estimator is active on all web pages.
       </p>
+      <Widget />
     </div>
   )
 }
