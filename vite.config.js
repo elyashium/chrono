@@ -15,11 +15,13 @@ export default defineConfig({
     outDir: 'dist',
     rollupOptions: {
       input: {
-        content: './src/content/content.jsx',
-        popup: './index.html'
+        main: 'index.html',
+        content: 'src/content/content.jsx'
       },
       output: {
-        entryFileNames: 'assets/[name].js'
+        entryFileNames: '[name].js',
+        chunkFileNames: '[name].js',
+        assetFileNames: '[name].[ext]'
       }
     }
   },
