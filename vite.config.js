@@ -11,20 +11,7 @@ export default defineConfig({
     crx({ manifest })
   ],
   build: {
-    emptyOutDir: true,
-    outDir: 'dist',
-    rollupOptions: {
-      input: {
-        main: 'index.html',
-        content: 'src/content/content.jsx'
-      },
-      output: {
-        entryFileNames: '[name].js',
-        chunkFileNames: '[name].js',
-        assetFileNames: '[name].[ext]'
-      }
-    }
-  },
+    emptyOutDir: true,  outDir: 'dist'},
   server: {
     port: 5173,
     strictPort: true,
