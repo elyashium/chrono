@@ -11,7 +11,9 @@ export default defineConfig({
     crx({ manifest })
   ],
   build: {
-    emptyOutDir: true,  outDir: 'dist'},
+    emptyOutDir: true,
+    outDir: 'dist'
+  },
   server: {
     port: 5173,
     strictPort: true,
