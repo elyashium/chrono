@@ -10,51 +10,43 @@ export default function Widget() {
 
 
     useEffect(() => {
-        const visibleText = () => {
-            //document.createTreeWalker is a built-in browser API
-            // that creates a TreeWalker object, which allows you to traverse the DOM tree
-
-            //its preffered over HTML.innerText and querySelector because the traversal is easy and 
-            // in this case we need only visible text on the web page.
-            const walker = document.createTreeWalker(
-                document.body,
-                NodeFilter.SHOW_TEXT
-            );
-
-
-            let visibleText = '';
-
-            while (walker.nextNode()) {
-                const node = walker.currentNode;
-                const parentElement = node.parentElement;
-
-                //This loop iterates through all text nodes in the DOM, starting from the root (document.body).
-
-                // Check if the element is visible
-                if (parentElement && isElementVisible(parentElement)) {
-                    visibleText += node.textContent + ' ';
-                }
-
-                // If the parent element is visible, append the text to the visibleText string, followed by a space (to separate words).
-            }
-
-            return visibleText.trim();
+        // Function to get visible text from the page
+        const getVisibleText = () => {
+            const bodyText = document.body.innerText || "";
+            // Filter out common UI elements text
+            return bodyText.split('\n')
+                .filter(line => 
+                    !line.match(/^(Menu|Search|Home|About|Contact|©|Privacy Policy|Terms)$/i)
+                )
+                .join(' ');
         };
 
-        const isElementVisible = (element) => {
-            const style = window.getComputedStyle(element);
-            return (
-                style.display !== 'none' &&
-                style.visibility !== 'hidden' &&
-                element.offsetWidth > 0 &&
-                element.offsetHeight > 0
-            );
-        };
+        // Calculate total words
+        const text = getVisibleText();
+        const words = text.trim().split(/\s+/).filter(word => word.length > 0);
+        const wordCount = words.length;
+        setTotalWords(wordCount);
 
-        const words = visibleText().split(/\s+/);
-        setTotalWords(words.length)
-
+        // Calculate reading time (assuming 200 words per minute)
+        const estimatedMinutes = wordCount / 200;
+        setTimeLeft(estimatedMinutes);
     }, []);
+
+    // Update time based on scroll position
+    useEffect(() => {
+        const handleScroll = () => {
+            const scrolled = window.scrollY;
+            const height = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = Math.min(scrolled / height, 1);
+            
+            // Adjust remaining time based on scroll progress
+            const remainingTime = timeLeft * (1 - progress);
+            setTimeLeft(remainingTime);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [timeLeft]);
 
     //dynamic time calculation 
 
@@ -96,7 +88,7 @@ export default function Widget() {
         <div className="fixed bottom-4 right-4 backdrop-blur-md bg-black/40 text-white p-4 rounded-xl shadow-lg border border-white/10 font-sans transition-all hover:bg-black/50">
             <div className="flex items-center gap-2">
                 <span className="text-amber-400">⏳</span>
-                <span className="font-medium">{timeLeft.toFixed(1)}m</span>
+                <span className="font-medium">{Math.max(0, timeLeft).toFixed(1)}m</span>
                 <span className="text-gray-400">|</span>
                 <span className="text-sm text-gray-300">{totalWords} words</span>
             </div>
