@@ -15,7 +15,7 @@ export default function Widget() {
             const bodyText = document.body.innerText || "";
             // Filter out common UI elements text
             return bodyText.split('\n')
-                .filter(line => 
+                .filter(line =>
                     !line.match(/^(Menu|Search|Home|About|Contact|©|Privacy Policy|Terms)$/i)
                 )
                 .join(' ');
@@ -35,19 +35,19 @@ export default function Widget() {
     // Update time based on scroll position
     useEffect(() => {
         const handleScroll = () => {
-          const scrolled = window.scrollY;
-          const height = document.documentElement.scrollHeight - window.innerHeight;
-          const progress = Math.min(scrolled / height, 1);
-      
-          // Adjust remaining time based on scroll progress
-          const remainingTime = timeLeft * (1 - progress);
-          setTimeLeft(remainingTime);
+            const scrolled = window.scrollY;
+            const height = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = Math.min(scrolled / height, 1);
+
+            // Adjust remaining time based on scroll progress
+            const remainingTime = timeLeft * (1 - progress);
+            setTimeLeft(remainingTime);
         };
-      
+
         // Attach to the main document, not the shadow DOM
         document.addEventListener('scroll', handleScroll);
         return () => document.removeEventListener('scroll', handleScroll);
-      }, [timeLeft]);
+    }, [timeLeft]);
 
     //dynamic time calculation 
 
@@ -72,7 +72,7 @@ export default function Widget() {
 
 
     useEffect(() => {
-       
+
         const timer = setInterval(() => {
             setTimeLeft(prev =>
                 Math.max(estimatedTime, prev - 0.0167)
