@@ -1,14 +1,18 @@
 # Chrono - Web Page Reading Time Estimator
 
-A lightweight Chrome extension that provides real-time reading time estimates for web pages, helping users better manage their reading time.
+A lightweight Chrome extension that provides real-time reading time estimates for web pages, helping users better manage their reading time. Features a premium UI with intelligent content detection and customizable settings.
 
 ## Features
 
 - ⏱️ Real-time reading time estimation for any webpage
-- 📊 Simple, unobtrusive display in webpage
-- 🚀 Works automatically on all websites
-- 🎯 Lightweight and performance-focused
+- 📊 Dynamic progress tracking with animated circle
+- 🎨 Premium UI with animated gradient backgrounds
+- 🌓 Dark/Light theme support with glass morphism
+- 📍 Customizable widget positioning
+- 🎯 Intelligent content detection
+- 🤖 AI-generated content support
 - 🔒 Minimal permissions required for operation
+- 💾 Persistent user preferences
 
 ## Installation
 
@@ -29,17 +33,27 @@ The extension uses Manifest V3 with the following key features:
 - Permissions: 
   - `activeTab`: For accessing current tab content
   - `scripting`: For injecting reading time calculation scripts
+  - `storage`: For saving user preferences
 - Content Scripts: Automatically runs on all URLs to calculate reading time
 
 ### Project Structure
 
 ```
 ├── src/
-│   ├── content/      # Content script with reading time logic
-│   │   └── index.jsx # Main content script
-│   └── App.jsx       # Popup component
-├── public/           # Static assets
-└── manifest.json     # Extension configuration
+│   ├── components/
+│   │   ├── Widget.jsx    # Main widget component
+│   │   ├── Settings.jsx  # Settings panel
+│   │   └── Slider.jsx    # Reading speed slider
+│   ├── contexts/
+│   │   └── SettingsContext.jsx  # Settings management
+│   ├── hooks/
+│   │   ├── useScrollProgress.js # Scroll tracking
+│   │   └── useStorage.js        # Chrome storage management
+│   ├── content/
+│   │   └── content.jsx    # Content script
+│   └── App.jsx            # Popup component
+├── public/                # Static assets
+└── manifest.json          # Extension configuration
 ```
 
 ## Development
@@ -71,10 +85,30 @@ npm run build
 
 ## How It Works
 
-The extension injects a content script (index.jsx) into every webpage, which:
-1. Analyzes the page content
-2. Calculates estimated reading time
-3. Displays the result in an unobtrusive manner
+The extension provides several key features:
+
+1. **Content Analysis**
+   - Intelligently detects main content area
+   - Supports AI-generated content (LLM responses)
+   - Filters out UI elements and navigation
+
+2. **Reading Progress**
+   - Animated progress circle
+   - Current section tracking
+   - Estimated completion time
+   - Word count statistics
+
+3. **Customization**
+   - Theme switching (Dark/Light)
+   - Widget positioning
+   - Reading speed adjustment (WPM)
+   - Toggleable UI elements
+
+4. **Technical Implementation**
+   - Uses Shadow DOM for style isolation
+   - Optimized scroll performance
+   - Persistent settings storage
+   - Premium UI with animated gradients
 
 ## Contributing
 
