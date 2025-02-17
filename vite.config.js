@@ -15,8 +15,8 @@ export default defineConfig({
     outDir: 'dist',
     rollupOptions: {
       input: {
-        content: 'src/content/content.jsx',
-        popup: 'index.html'
+        content: './src/content/content.jsx',
+        popup: './index.html'
       },
       output: {
         entryFileNames: 'assets/[name].js'
