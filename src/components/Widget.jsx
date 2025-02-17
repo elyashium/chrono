@@ -101,56 +101,54 @@ export default function Widget() {
             border border-white/10 
             font-sans min-w-[200px]
             transition-all duration-300 ease-in-out
-            ${settings.theme === 'dark' ? 'bg-black/40' : 'bg-white/40'}
+            bg-gradient
+            ${settings.theme === 'dark' ? 'dark-gradient' : 'light-gradient'}
             ${isAnimating ? 'scale-105' : 'scale-100'}
         `}>
             <div className="space-y-3">
                 {settings.showProgress && (
                     <div className="flex items-center justify-between">
-                        <div className="relative w-12 h-12">
-                            <svg className="w-full h-full" viewBox="0 0 36 36">
+                        <div className="relative w-10 h-10">
+                            <svg className="w-full h-full transform -rotate-90" viewBox="0 0 32 32">
                                 <circle 
-                                    cx="18" cy="18" r="16" 
-                                    className="fill-none stroke-gray-700/30" 
-                                    strokeWidth="3" 
+                                    cx="16" cy="16" r="14" 
+                                    className="fill-none stroke-current opacity-20" 
+                                    strokeWidth="2.5" 
                                 />
                                 <circle 
-                                    cx="18" cy="18" r="16" 
-                                    className="fill-none stroke-amber-400" 
-                                    strokeWidth="3"
-                                    strokeDasharray={`${scrollProgress * 100} 100`}
-                                    transform="rotate(-90 18 18)"
+                                    cx="16" cy="16" r="14"
+                                    className="fill-none stroke-amber-400"
+                                    strokeWidth="2.5"
+                                    strokeLinecap="round"
+                                    strokeDasharray={`${scrollProgress * 88} 88`}
+                                    style={{
+                                        transition: 'stroke-dasharray 0.3s ease'
+                                    }}
                                 />
-                                <text 
-                                    x="18" y="18" 
-                                    dy=".35em"
-                                    className="fill-white text-xs font-medium text-center"
-                                    textAnchor="middle"
-                                >
-                                    {Math.round(scrollProgress * 100)}%
-                                </text>
                             </svg>
+                            <div className="absolute inset-0 flex items-center justify-center">
+                                <span className="text-xs font-medium">
+                                    {Math.round(scrollProgress * 100)}%
+                                </span>
+                            </div>
                         </div>
                         <div className="flex items-center gap-2">
-                            <span className="text-amber-400">⏳</span>
-                            <span className="font-medium text-white text-lg">
+                            <span className="text-amber-400 animate-pulse">⏳</span>
+                            <span className="font-medium text-lg">
                                 {Math.max(0, Math.floor(timeLeft))}m
                             </span>
                         </div>
                     </div>
                 )}
 
-                {/* Stats */}
                 <div className="space-y-1.5 border-t border-white/10 pt-3">
                     <div className="flex justify-between text-sm">
-                        <span className={`text-${settings.theme === 'dark' ? 'gray-400' : 'gray-600'}`}>Words</span>
-                        <span className={`text-${settings.theme === 'dark' ? 'gray-300' : 'gray-700'}`}>
-                            {totalWords.toLocaleString()}
-                        </span>
+                        <span className="text-gray-400">Words</span>
+                        <span className="text-gray-300">{totalWords.toLocaleString()}</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                        <span className={`text-${settings.theme === 'dark' ? 'gray-400' : 'gray-600'}`}>Finish by</span>
-                        <span className={`text-${settings.theme === 'dark' ? 'gray-300' : 'gray-700'}`}>
+                        <span className="text-gray-400">Finish by</span>
+                        <span className="text-gray-300">
                             {new Date(Date.now() + timeLeft * 60000).toLocaleTimeString([], { 
                                 hour: 'numeric', 
                                 minute: '2-digit'
