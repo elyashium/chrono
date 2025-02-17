@@ -1,8 +1,10 @@
 import React from 'react'
 import { useState, useEffect, useMemo } from 'react'
 import useScrollProgress from '../hooks/useScrollProgress'
+import { useSettings } from '../contexts/SettingsContext'
 
-export default function Widget({ wpm = 200 }) {
+export default function Widget() {
+    const { settings } = useSettings();
     const [timeLeft, setTimeLeft] = useState(0);
     const [totalWords, setTotalWords] = useState(0);
     const [isAnimating, setIsAnimating] = useState(false);
@@ -72,9 +74,9 @@ export default function Widget({ wpm = 200 }) {
 
     // Calculate estimated time based on scroll progress
     const estimatedTime = useMemo(() => {
-        const rawTime = totalWords / wpm;
+        const rawTime = totalWords / settings.wpm;
         return Math.max(1, Math.ceil(rawTime * (1 - scrollProgress)));
-    }, [totalWords, scrollProgress, wpm]);
+    }, [totalWords, scrollProgress, settings.wpm]);
 
     // Smooth transition when minute changes
     useEffect(() => {
@@ -92,66 +94,70 @@ export default function Widget({ wpm = 200 }) {
 
     return (
         <div className={`
-            fixed bottom-4 right-4 
-            backdrop-blur-md bg-black/40 
+            widget-container
+            position-${settings.position}
+            backdrop-blur-md
             p-4 rounded-xl shadow-lg 
             border border-white/10 
             font-sans min-w-[200px]
             transition-all duration-300 ease-in-out
-            hover:bg-black/50 
+            ${settings.theme === 'dark' ? 'bg-black/40' : 'bg-white/40'}
             ${isAnimating ? 'scale-105' : 'scale-100'}
         `}>
             <div className="space-y-3">
-                {/* Progress Circle */}
-                <div className="flex items-center justify-between">
-                    <div className="relative w-12 h-12">
-                        <svg className="w-full h-full" viewBox="0 0 36 36">
-                            <circle 
-                                cx="18" cy="18" r="16" 
-                                className="fill-none stroke-gray-700/30" 
-                                strokeWidth="3" 
-                            />
-                            <circle 
-                                cx="18" cy="18" r="16" 
-                                className="fill-none stroke-amber-400" 
-                                strokeWidth="3"
-                                strokeDasharray={`${scrollProgress * 100} 100`}
-                                transform="rotate(-90 18 18)"
-                            />
-                            <text 
-                                x="18" y="18" 
-                                dy=".35em"
-                                className="fill-white text-xs font-medium text-center"
-                                textAnchor="middle"
-                            >
-                                {Math.round(scrollProgress * 100)}%
-                            </text>
-                        </svg>
+                {settings.showProgress && (
+                    <div className="flex items-center justify-between">
+                        <div className="relative w-12 h-12">
+                            <svg className="w-full h-full" viewBox="0 0 36 36">
+                                <circle 
+                                    cx="18" cy="18" r="16" 
+                                    className="fill-none stroke-gray-700/30" 
+                                    strokeWidth="3" 
+                                />
+                                <circle 
+                                    cx="18" cy="18" r="16" 
+                                    className="fill-none stroke-amber-400" 
+                                    strokeWidth="3"
+                                    strokeDasharray={`${scrollProgress * 100} 100`}
+                                    transform="rotate(-90 18 18)"
+                                />
+                                <text 
+                                    x="18" y="18" 
+                                    dy=".35em"
+                                    className="fill-white text-xs font-medium text-center"
+                                    textAnchor="middle"
+                                >
+                                    {Math.round(scrollProgress * 100)}%
+                                </text>
+                            </svg>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <span className="text-amber-400">⏳</span>
+                            <span className="font-medium text-white text-lg">
+                                {Math.max(0, Math.floor(timeLeft))}m
+                            </span>
+                        </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                        <span className="text-amber-400">⏳</span>
-                        <span className="font-medium text-white text-lg">
-                            {Math.max(0, Math.floor(timeLeft))}m
-                        </span>
-                    </div>
-                </div>
+                )}
 
                 {/* Stats */}
                 <div className="space-y-1.5 border-t border-white/10 pt-3">
                     <div className="flex justify-between text-sm">
-                        <span className="text-gray-400">Words</span>
-                        <span className="text-gray-300">{totalWords.toLocaleString()}</span>
+                        <span className={`text-${settings.theme === 'dark' ? 'gray-400' : 'gray-600'}`}>Words</span>
+                        <span className={`text-${settings.theme === 'dark' ? 'gray-300' : 'gray-700'}`}>
+                            {totalWords.toLocaleString()}
+                        </span>
                     </div>
                     <div className="flex justify-between text-sm">
-                        <span className="text-gray-400">Finish by</span>
-                        <span className="text-gray-300">
+                        <span className={`text-${settings.theme === 'dark' ? 'gray-400' : 'gray-600'}`}>Finish by</span>
+                        <span className={`text-${settings.theme === 'dark' ? 'gray-300' : 'gray-700'}`}>
                             {new Date(Date.now() + timeLeft * 60000).toLocaleTimeString([], { 
                                 hour: 'numeric', 
                                 minute: '2-digit'
                             })}
                         </span>
                     </div>
-                    {currentSection && (
+                    {settings.showSection && currentSection && (
                         <div className="text-sm text-gray-400 truncate">
                             <span className="text-amber-400/80">📍</span> {currentSection}
                         </div>
