@@ -35,18 +35,19 @@ export default function Widget() {
     // Update time based on scroll position
     useEffect(() => {
         const handleScroll = () => {
-            const scrolled = window.scrollY;
-            const height = document.documentElement.scrollHeight - window.innerHeight;
-            const progress = Math.min(scrolled / height, 1);
-            
-            // Adjust remaining time based on scroll progress
-            const remainingTime = timeLeft * (1 - progress);
-            setTimeLeft(remainingTime);
+          const scrolled = window.scrollY;
+          const height = document.documentElement.scrollHeight - window.innerHeight;
+          const progress = Math.min(scrolled / height, 1);
+      
+          // Adjust remaining time based on scroll progress
+          const remainingTime = timeLeft * (1 - progress);
+          setTimeLeft(remainingTime);
         };
-
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, [timeLeft]);
+      
+        // Attach to the main document, not the shadow DOM
+        document.addEventListener('scroll', handleScroll);
+        return () => document.removeEventListener('scroll', handleScroll);
+      }, [timeLeft]);
 
     //dynamic time calculation 
 
