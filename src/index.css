@@ -1,3 +1,41 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+@keyframes gradient-shift {
+    0% {
+      transform: translateX(-50%) translateY(-50%);
+    }
+    50% {
+      transform: translateX(50%) translateY(50%);
+    }
+    100% {
+      transform: translateX(-50%) translateY(-50%);
+    }
+  }
+  
+  .animate-gradient-shift {
+    animation: gradient-shift 8s ease-in-out infinite;
+  }
+  
+  /* Position utility classes if not already defined in Tailwind */
+  .position-top-right {
+    top: 1rem;
+    right: 1rem;
+  }
+  
+  .position-top-left {
+    top: 1rem;
+    left: 1rem;
+  }
+  
+  .position-bottom-right {
+    bottom: 1rem;
+    right: 1rem;
+  }
+  
+  .position-bottom-left {
+    bottom: 1rem;
+    left: 1rem;
+  }
