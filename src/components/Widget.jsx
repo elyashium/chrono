@@ -13,6 +13,13 @@ export default function Widget({ wpm = 200 }) {
         const getVisibleText = () => {
             // Try to find main content first
             const contentSelectors = [
+                // AI Chat selectors
+                '[data-message-author-role="assistant"]',
+                '.claude-message',
+                '.ai-message',
+                '.message-content',
+                '[data-testid="conversation-turn-2"]',
+                // Standard content selectors
                 'article',
                 '[role="main"]',
                 '.main-content',
@@ -24,47 +31,20 @@ export default function Widget({ wpm = 200 }) {
             ];
 
             let mainContent = null;
+            let combinedText = '';
+
+            // Try to find all matching elements
             for (const selector of contentSelectors) {
-                const element = document.querySelector(selector);
-                if (element) {
-                    mainContent = element;
-                    break;
+                const elements = document.querySelectorAll(selector);
+                if (elements.length > 0) {
+                    elements.forEach(element => {
+                        combinedText += ' ' + element.innerText;
+                    });
                 }
             }
 
-            // If no main content found, fallback to body
-            const textContent = mainContent ? mainContent.innerText : document.body.innerText;
-
-            // Split into lines and filter out common UI elements
-            return textContent.split('\n')
-                .filter(line => {
-                    const lowercaseLine = line.toLowerCase().trim();
-                    
-                    // Common UI elements to exclude
-                    const excludePatterns = [
-                        /^menu$/,
-                        /^search$/,
-                        /^home$/,
-                        /^about$/,
-                        /^contact$/,
-                        /^©/,
-                        /^privacy policy$/,
-                        /^terms$/,
-                        /^share$/,
-                        /^follow$/,
-                        /^subscribe$/,
-                        /^related articles$/,
-                        /^comments$/,
-                        /^\d+ (min|minutes) read$/,
-                        /^published/i,
-                        /^updated/i,
-                        /^loading/i,
-                        /^advertisement$/i
-                    ];
-
-                    return !excludePatterns.some(pattern => pattern.test(lowercaseLine));
-                })
-                .join(' ');
+            // If no content found, fallback to body
+            return combinedText || document.body.innerText;
         };
 
         const text = getVisibleText();
@@ -83,11 +63,11 @@ export default function Widget({ wpm = 200 }) {
         if (Math.floor(timeLeft) !== estimatedTime) {
             setIsAnimating(true);
             setTimeLeft(estimatedTime);
-            
+
             const timeout = setTimeout(() => {
                 setIsAnimating(false);
             }, 300);
-            
+
             return () => clearTimeout(timeout);
         }
     }, [estimatedTime, timeLeft]);
