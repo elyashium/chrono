@@ -11,10 +11,15 @@ export default defineConfig({
     crx({ manifest })
   ],
   build: {
+    emptyOutDir: true,
+    outDir: 'dist',
     rollupOptions: {
       input: {
-        popup: 'index.html',
-        content: 'src/content/content.jsx'
+        content: 'src/content/content.jsx',
+        popup: 'index.html'
+      },
+      output: {
+        entryFileNames: 'assets/[name].js'
       }
     }
   },
