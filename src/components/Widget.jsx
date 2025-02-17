@@ -96,71 +96,40 @@ export default function Widget() {
         <div className={`
             widget-container
             position-${settings.position}
-            backdrop-blur-md
-            p-4 rounded-xl shadow-lg 
-            border border-white/10 
+            p-4 rounded-lg
             font-sans min-w-[200px]
-            transition-all duration-300 ease-in-out
-            bg-gradient
             ${settings.theme === 'dark' ? 'dark-gradient' : 'light-gradient'}
-            ${isAnimating ? 'scale-105' : 'scale-100'}
         `}>
-            <div className="space-y-3">
-                {settings.showProgress && (
-                    <div className="flex items-center justify-between">
-                        <div className="relative w-10 h-10">
-                            <svg className="w-full h-full transform -rotate-90" viewBox="0 0 32 32">
-                                <circle 
-                                    cx="16" cy="16" r="14" 
-                                    className="fill-none stroke-current opacity-20" 
-                                    strokeWidth="2.5" 
-                                />
-                                <circle 
-                                    cx="16" cy="16" r="14"
-                                    className="fill-none stroke-amber-400"
-                                    strokeWidth="2.5"
-                                    strokeLinecap="round"
-                                    strokeDasharray={`${scrollProgress * 88} 88`}
-                                    style={{
-                                        transition: 'stroke-dasharray 0.3s ease'
-                                    }}
-                                />
-                            </svg>
-                            <div className="absolute inset-0 flex items-center justify-center">
-                                <span className="text-xs font-medium">
-                                    {Math.round(scrollProgress * 100)}%
-                                </span>
-                            </div>
-                        </div>
-                        <div className="flex items-center gap-2">
-                            <span className="text-amber-400 animate-pulse">⏳</span>
-                            <span className="font-medium text-lg">
-                                {Math.max(0, Math.floor(timeLeft))}m
-                            </span>
-                        </div>
+            <div className="space-y-2">
+                <div className="flex items-center gap-2">
+                    <span className={`text-base ${settings.theme === 'dark' ? 'text-white' : 'text-gray-800'}`}>
+                        {Math.round(scrollProgress * 100)}%
+                    </span>
+                </div>
+
+                <div className="flex items-center gap-2">
+                    <span className="text-amber-400">⏳</span>
+                    <span className={`text-base ${settings.theme === 'dark' ? 'text-white' : 'text-gray-800'}`}>
+                        {Math.max(0, Math.floor(timeLeft))}m
+                    </span>
+                </div>
+
+                <div className={`text-sm ${settings.theme === 'dark' ? 'text-white' : 'text-gray-800'}`}>
+                    Words {totalWords.toLocaleString()}
+                </div>
+
+                <div className={`text-sm ${settings.theme === 'dark' ? 'text-white' : 'text-gray-800'}`}>
+                    Finish by {new Date(Date.now() + timeLeft * 60000).toLocaleTimeString([], {
+                        hour: 'numeric',
+                        minute: '2-digit'
+                    })}
+                </div>
+
+                {settings.showSection && currentSection && (
+                    <div className={`text-sm ${settings.theme === 'dark' ? 'text-white/80' : 'text-gray-600'} truncate`}>
+                        <span className="text-amber-400">📍</span> {currentSection}
                     </div>
                 )}
-
-                <div className="space-y-1.5 border-t border-white/10 pt-3">
-                    <div className="flex justify-between text-sm">
-                        <span className="text-gray-400">Words</span>
-                        <span className="text-gray-300">{totalWords.toLocaleString()}</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                        <span className="text-gray-400">Finish by</span>
-                        <span className="text-gray-300">
-                            {new Date(Date.now() + timeLeft * 60000).toLocaleTimeString([], { 
-                                hour: 'numeric', 
-                                minute: '2-digit'
-                            })}
-                        </span>
-                    </div>
-                    {settings.showSection && currentSection && (
-                        <div className="text-sm text-gray-400 truncate">
-                            <span className="text-amber-400/80">📍</span> {currentSection}
-                        </div>
-                    )}
-                </div>
             </div>
         </div>
     )
