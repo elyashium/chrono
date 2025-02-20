@@ -2,40 +2,53 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Custom component classes */
+@layer components {
+  .dark-theme {
+    @apply bg-premium-dark border-premium-border shadow-glass;
+  }
+  
+  .transition-premium {
+    @apply transition-all duration-300 ease-out;
+  }
+  
+  .text-premium {
+    @apply text-white/95 font-medium tracking-tight;
+  }
+  
+  .progress-circle {
+    @apply w-9 h-9 relative;
+  }
+}
 
+/* Animations */
 @keyframes gradient-shift {
-    0% {
-      transform: translateX(-50%) translateY(-50%);
-    }
-    50% {
-      transform: translateX(50%) translateY(50%);
-    }
-    100% {
-      transform: translateX(-50%) translateY(-50%);
-    }
-  }
-  
-  .animate-gradient-shift {
-    animation: gradient-shift 8s ease-in-out infinite;
-  }
-  
-  /* Position utility classes if not already defined in Tailwind */
-  .position-top-right {
-    top: 1rem;
-    right: 1rem;
-  }
-  
-  .position-top-left {
-    top: 1rem;
-    left: 1rem;
-  }
-  
-  .position-bottom-right {
-    bottom: 1rem;
-    right: 1rem;
-  }
-  
-  .position-bottom-left {
-    bottom: 1rem;
-    left: 1rem;
-  }
+  0% { transform: translateX(-50%) translateY(-50%); }
+  50% { transform: translateX(50%) translateY(50%); }
+  100% { transform: translateX(-50%) translateY(-50%); }
+}
+
+.animate-gradient-shift {
+  animation: gradient-shift 8s ease-in-out infinite;
+}
+
+/* Position utility classes if not already defined in Tailwind */
+.position-top-right {
+  top: 1rem;
+  right: 1rem;
+}
+
+.position-top-left {
+  top: 1rem;
+  left: 1rem;
+}
+
+.position-bottom-right {
+  bottom: 1rem;
+  right: 1rem;
+}
+
+.position-bottom-left {
+  bottom: 1rem;
+  left: 1rem;
+}

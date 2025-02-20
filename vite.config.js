@@ -2,6 +2,8 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { crx } from '@crxjs/vite-plugin'
 import manifest from './manifest.json'
+import tailwindcss from 'tailwindcss'
+import autoprefixer from 'autoprefixer'
 
 
 // https://vite.dev/config/
@@ -19,7 +21,12 @@ export default defineConfig({
         content: 'src/content/index.jsx'
       },
       output: {
-        assetFileNames: 'assets/[name].[ext]'
+        assetFileNames: 'assets/[name].[ext]',
+        manualChunks: (id) => {
+          if (id.includes('node_modules')) {
+            return 'vendor'
+          }
+        }
       }
     },
     cssCodeSplit: false
@@ -29,6 +36,14 @@ export default defineConfig({
     strictPort: true,
     hmr: {
       port: 5173
+    }
+  },
+  css: {
+    postcss: {
+      plugins: [
+        tailwindcss,
+        autoprefixer
+      ]
     }
   }
 })
