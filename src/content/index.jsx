@@ -4,11 +4,8 @@ import { StrictMode } from 'react'
 import { SettingsProvider } from '../contexts/SettingsContext'
 import Widget from '../components/Widget'
 import '../index.css'
-
-// Add CSS import
 import styles from '../index.css?inline'
 
-// Create shadow DOM with proper positioning
 const hostElement = document.createElement('div')
 hostElement.id = 'chrono-extension-root'
 hostElement.style.cssText = `
@@ -23,7 +20,6 @@ document.documentElement.appendChild(hostElement) // Attach to html instead of b
 
 const shadowRoot = hostElement.attachShadow({ mode: 'open' })
 
-// Add Google Fonts
 const fontLink = document.createElement('link')
 fontLink.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap'
 fontLink.rel = 'stylesheet'
@@ -34,7 +30,7 @@ const style = document.createElement('style')
 style.textContent = styles
 shadowRoot.appendChild(style)
 
-// Add font family fallbacks
+// font family fallbacks
 style.textContent += `
   :host {
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
@@ -47,12 +43,12 @@ style.textContent += `
   }
 `
 
-// Create container with proper pointer events
+// container with proper pointer events
 const container = document.createElement('div')
 container.className = 'widget-container'
 shadowRoot.appendChild(container)
 
-// Load saved preferences and render with error handling
+// saved preferences and render with error handling
 chrome.storage.sync.get({
   theme: 'dark',
   position: 'bottom-right',
