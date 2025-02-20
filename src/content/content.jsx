@@ -14,6 +14,25 @@ const shadowRoot = widgetRoot.attachShadow({ mode: 'open' })
 // Inject styles
 const style = document.createElement('style')
 style.textContent = `
+  :host {
+    all: initial; /* Reset inherited styles */
+    display: block;
+    position: fixed;
+    z-index: 9999;
+    contain: content;
+  }
+
+  .widget-container {
+    position: fixed !important;
+    z-index: 9999 !important;
+  }
+
+  /* Add this new rule for SVG alignment */
+  svg {
+    transform-box: fill-box;
+    overflow: visible;
+  }
+
   /* Base styles */
   .widget-container {
     position: fixed;

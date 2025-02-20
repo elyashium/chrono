@@ -12,7 +12,17 @@ export default defineConfig({
   ],
   build: {
     emptyOutDir: true,
-    outDir: 'dist'
+    outDir: 'dist',
+    rollupOptions: {
+      input: {
+        main: 'index.html',
+        content: 'src/content/index.jsx'
+      },
+      output: {
+        assetFileNames: 'assets/[name].[ext]'
+      }
+    },
+    cssCodeSplit: false
   },
   server: {
     port: 5173,

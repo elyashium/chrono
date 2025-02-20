@@ -93,45 +93,43 @@ export default function Widget() {
 
   return (
     <div className={`
-      fixed ${settings.position === 'top-right' ? 'top-4 right-4' : 
-             settings.position === 'top-left' ? 'top-4 left-4' :
-             settings.position === 'bottom-left' ? 'bottom-4 left-4' : 'bottom-4 right-4'}
-      w-48 p-3.5 rounded-2xl
+      fixed ${settings.position === 'top-right' ? 'top-0 right-0' : 
+             settings.position === 'top-left' ? 'top-0 left-0' :
+             settings.position === 'bottom-left' ? 'bottom-0 left-0' : 'bottom-0 right-0'}
+      w-48
       font-sans
+      dark-theme
+      transition-premium
+      text-premium
       backdrop-blur-md
       shadow-lg
-      transition-all duration-300 ease-out
-      ${isDark ? 'bg-gradient-to-br from-gray-900/90 to-gray-800/90' : 'bg-gradient-to-br from-white/90 to-gray-50/90'}
-      before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-r
-      ${isDark ? 'before:from-blue-500/10 before:to-purple-500/10' : 'before:from-blue-200/20 before:to-purple-200/20'}
-      before:animate-gradient-shift before:-z-10
+      z-[2147483647]
     `}>
-      <div className="space-y-2.5">
-        {/* Progress Circle */}
-        <div className="flex items-center gap-2">
-          <div className="relative w-8 h-8">
-            <svg className="w-full h-full -rotate-90">
+      <div className="space-y-3">
+        <div className="flex items-center gap-3">
+          <div className="progress-circle">
+            <svg viewBox="0 0 36 36" className="w-full h-full">
               <circle
-                className={`${isDark ? 'stroke-gray-700' : 'stroke-gray-200'}`}
-                strokeWidth="2"
+                className="stroke-white/10"
+                strokeWidth="3"
                 fill="none"
+                cx="18"
+                cy="18"
                 r="15"
-                cx="16"
-                cy="16"
               />
               <circle
-                className={`${isDark ? 'stroke-blue-400' : 'stroke-blue-500'} transition-all duration-300 ease-out`}
-                strokeWidth="2"
+                className="stroke-white/90"
+                strokeWidth="3"
                 fill="none"
+                cx="18"
+                cy="18"
                 r="15"
-                cx="16"
-                cy="16"
+                strokeLinecap="round"
                 strokeDasharray={`${2 * Math.PI * 15}`}
                 strokeDashoffset={`${2 * Math.PI * 15 * (1 - scrollProgress)}`}
               />
             </svg>
-            <span className={`absolute inset-0 flex items-center justify-center text-xs font-medium
-              ${isDark ? 'text-gray-200' : 'text-gray-600'}`}>
+            <span className="absolute inset-0 flex items-center justify-center text-sm font-medium text-white">
               {Math.round(scrollProgress * 100)}%
             </span>
           </div>
@@ -141,13 +139,13 @@ export default function Widget() {
           />
         </div>
 
-        {/* Stats */}
-        <div className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-500'} space-y-1`}>
-          <div className="flex justify-between">
+        {/* Stats section with proper spacing */}
+        <div className="space-y-2 text-secondary">
+          <div className="flex justify-between text-xs">
             <span>Total Words</span>
             <span className="font-medium">{totalWords.toLocaleString()}</span>
           </div>
-          <div className="flex justify-between">
+          <div className="flex justify-between text-xs">
             <span>Finish by</span>
             <span className="font-medium">
               {new Date(Date.now() + timeLeft * 60000).toLocaleTimeString([], {
@@ -158,10 +156,10 @@ export default function Widget() {
           </div>
         </div>
 
-        {/* Current Section */}
+        {/* Current Section with proper spacing */}
         {settings.showSection && currentSection && (
-          <div className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-500'} truncate mt-2 pt-2 border-t ${isDark ? 'border-gray-700/50' : 'border-gray-200/50'}`}>
-            <span className="text-xs mr-1.5">📍</span>
+          <div className="text-xs text-secondary truncate pt-2 border-t border-white/10">
+            <span className="mr-1.5">📍</span>
             <span className="truncate">{currentSection}</span>
           </div>
         )}
