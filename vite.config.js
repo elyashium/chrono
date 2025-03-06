@@ -21,15 +21,13 @@ export default defineConfig({
         content: 'src/content/index.jsx'
       },
       output: {
-        assetFileNames: 'assets/[name].[ext]',
-        manualChunks: (id) => {
-          if (id.includes('node_modules')) {
-            return 'vendor'
-          }
-        }
+        entryFileNames: 'assets/[name].js',
+        chunkFileNames: 'assets/[name].js',
+        assetFileNames: 'assets/[name].[ext]'
       }
     },
-    cssCodeSplit: false
+    cssCodeSplit: false,
+    minify: true
   },
   server: {
     port: 5173,

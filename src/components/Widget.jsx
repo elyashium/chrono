@@ -97,6 +97,8 @@ export default function Widget() {
              settings.position === 'top-left' ? 'top-0 left-0' :
              settings.position === 'bottom-left' ? 'bottom-0 left-0' : 'bottom-0 right-0'}
       w-48
+      p-4
+      rounded-xl
       font-sans
       dark-theme
       transition-premium

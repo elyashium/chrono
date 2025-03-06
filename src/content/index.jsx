@@ -3,7 +3,6 @@ import { createRoot } from 'react-dom/client'
 import { StrictMode } from 'react'
 import { SettingsProvider } from '../contexts/SettingsContext'
 import Widget from '../components/Widget'
-import '../index.css'
 import styles from '../index.css?inline'
 
 const hostElement = document.createElement('div')
@@ -11,12 +10,11 @@ hostElement.id = 'chrono-extension-root'
 hostElement.style.cssText = `
   position: fixed;
   z-index: 2147483647;
-  padding: 24px;
   pointer-events: none;
   width: 100%;
   height: 100%;
 `
-document.documentElement.appendChild(hostElement) // Attach to html instead of body
+document.documentElement.appendChild(hostElement)
 
 const shadowRoot = hostElement.attachShadow({ mode: 'open' })
 
@@ -25,30 +23,38 @@ fontLink.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600
 fontLink.rel = 'stylesheet'
 shadowRoot.appendChild(fontLink)
 
-// Inject CSS directly
 const style = document.createElement('style')
-style.textContent = styles
-shadowRoot.appendChild(style)
-
-// font family fallbacks
-style.textContent += `
+style.textContent = `
   :host {
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
   }
   
-  @supports not (font-variation-settings: normal) {
-    :host {
-      font-family: system-ui, -apple-system, sans-serif;
-    }
+  /* Base styles for widget container */
+  .widget-container {
+    display: block;
+    pointer-events: auto;
   }
+  
+  /* Ensure text colors are visible */
+  .text-secondary {
+    color: rgba(255, 255, 255, 0.7);
+  }
+  
+  /* Add padding to widget */
+  .fixed {
+    padding: 16px;
+    border-radius: 12px;
+    margin: 16px;
+  }
+  
+  ${styles}
 `
+shadowRoot.appendChild(style)
 
-// container with proper pointer events
 const container = document.createElement('div')
 container.className = 'widget-container'
 shadowRoot.appendChild(container)
 
-// saved preferences and render with error handling
 chrome.storage.sync.get({
   theme: 'dark',
   position: 'bottom-right',
